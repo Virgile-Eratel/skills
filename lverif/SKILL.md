@@ -27,7 +27,14 @@ Français par défaut. Anglais uniquement pour termes techniques standards (`N+1
 
 ### Étape 1 — Lire mémoire
 
-Lire `~/.claude/projects/-Users-eratel--claude-skills/memory/MEMORY.md` (mémoire partagée avec lbrut).
+Localiser le fichier mémoire (partagé avec lbrut). Chemin **dynamique** (varie selon machine/user) :
+
+1. Calculer le slug projet : `pwd | sed 's|[/.]|-|g'` (remplace `/` et `.` par `-`).
+   - Ex Linux : `/home/virgile/.claude/skills` → `-home-virgile--claude-skills`.
+   - Ex Mac : `/Users/eratel/.claude/skills` → `-Users-eratel--claude-skills`.
+2. Chemin cible : `~/.claude/projects/<slug>/memory/MEMORY.md`.
+3. Si absent : `ls ~/.claude/projects/` pour trouver le slug existant qui correspond au CWD courant.
+4. Si toujours rien : mémoire vide, continuer sans.
 
 But : repérer préférences, catégories à ignorer, faux positifs déjà signalés.
 
@@ -124,7 +131,7 @@ En cas de doute : ne pas signaler.
 
 ## Mémoire — quoi sauvegarder
 
-Sauvegarder dans `~/.claude/projects/-Users-eratel--claude-skills/memory/` (partagé lbrut) uniquement si :
+Sauvegarder dans le dossier mémoire résolu en Étape 1 (`~/.claude/projects/<slug>/memory/`, slug calculé dynamiquement, partagé lbrut). Créer le dossier si absent. Sauvegarder uniquement si :
 
 - User corrige une catégorie (« ignore les N+1 sur scripts CLI ») → `type: feedback`.
 - User signale un faux positif récurrent → `type: feedback`.

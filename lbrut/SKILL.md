@@ -29,7 +29,16 @@ Français par défaut. Anglais uniquement pour termes techniques standards (`clo
 
 ### Étape 1 — Lire mémoire
 
-Avant questions, lire `~/.claude/projects/-Users-eratel--claude-skills/memory/MEMORY.md`. Extraire :
+Avant questions, localiser le fichier mémoire. Chemin **dynamique** (varie selon machine/user) :
+
+1. Calculer le slug projet : `pwd | sed 's|[/.]|-|g'` (remplace `/` et `.` par `-`).
+   - Ex Linux : `/home/virgile/.claude/skills` → `-home-virgile--claude-skills`.
+   - Ex Mac : `/Users/eratel/.claude/skills` → `-Users-eratel--claude-skills`.
+2. Chemin cible : `~/.claude/projects/<slug>/memory/MEMORY.md`.
+3. Si absent : `ls ~/.claude/projects/` pour trouver le slug existant qui correspond au CWD courant.
+4. Si toujours rien : mémoire vide, continuer sans — ne pas créer de fichier en lecture.
+
+Lire `MEMORY.md` puis les `.md` référencés. Extraire :
 - Préférences pédagogiques (niveau, sujets maîtrisés).
 - Conventions/contraintes déjà capturées.
 
@@ -105,7 +114,7 @@ Terminer par : `Tape "go" pour exécuter. "replan" pour itérer. "deep <concept>
 
 ## Mémoire — quoi sauvegarder
 
-Sauvegarder dans `~/.claude/projects/-Users-eratel--claude-skills/memory/` quand :
+Sauvegarder dans le dossier mémoire résolu en Étape 1 (`~/.claude/projects/<slug>/memory/`, slug calculé dynamiquement). Créer le dossier si absent. Sauvegarder quand :
 
 - Réponse révèle un niveau (ex : « je connais bien Rust mais découvre tokio ») → `type: user`.
 - Préférence de format/approche confirmée ou corrigée → `type: feedback`.
